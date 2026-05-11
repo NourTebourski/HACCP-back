@@ -19,9 +19,13 @@ export class SeedService implements OnModuleInit {
   ) {}
 
   async onModuleInit() {
-    await this.seedTemplates();
-    await this.seedSuperAdmin();
-    await this.seedDemoData();
+    try {
+      await this.seedTemplates();
+      await this.seedSuperAdmin();
+      await this.seedDemoData();
+    } catch (err) {
+      this.logger.warn(`Seed skipped (tables may not exist yet): ${err.message}`);
+    }
   }
 
   private async seedTemplates() {

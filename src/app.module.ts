@@ -32,7 +32,7 @@ import { SeedModule } from './modules/seed/seed.module';
         const base = {
           type: 'postgres' as const,
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
-          synchronize: config.get<string>('app.nodeEnv') !== 'production',
+          synchronize: process.env.DB_SYNC === 'true' || config.get<string>('app.nodeEnv') !== 'production',
           logging: config.get<string>('app.nodeEnv') === 'development',
         };
         const databaseUrl = config.get<string>('database.url');
