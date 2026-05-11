@@ -28,17 +28,26 @@ import { SeedModule } from './modules/seed/seed.module';
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (config: ConfigService) => ({
-        type: 'mysql',
-        host: config.get<string>('database.host'),
-        port: config.get<number>('database.port'),
-        username: config.get<string>('database.username'),
-        password: config.get<string>('database.password'),
-        database: config.get<string>('database.database'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: config.get<string>('app.nodeEnv') !== 'production',
-        logging: config.get<string>('app.nodeEnv') === 'development',
-      }),
+      useFactory: (config: ConfigService) => {
+        const base = {
+          type: 'postgres' as const,
+          entities: [__dirname + '/**/*.entity{.ts,.js}'],
+          synchronize: config.get<string>('app.nodeEnv') !== 'production',
+          logging: config.get<string>('app.nodeEnv') === 'development',
+        };
+        const databaseUrl = config.get<string>('database.url');
+        if (databaseUrl) {
+          return { ...base, url: databaseUrl, ssl: { rejectUnauthorized: false } };
+        }
+        return {
+          ...base,
+          host: config.get<string>('database.host'),
+          port: config.get<number>('database.port'),
+          username: config.get<string>('database.username'),
+          password: config.get<string>('database.password'),
+          database: config.get<string>('database.database'),
+        };
+      },
       inject: [ConfigService],
     }),
     ThrottlerModule.forRootAsync({
