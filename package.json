@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "author": "",
+  "packageManager": "npm@10.9.2",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
