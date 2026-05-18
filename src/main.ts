@@ -11,10 +11,9 @@ async function bootstrap() {
 
   // CORS
   const allowedOrigins = [
-    'https://haccp-food.johnwirtshaus.de',
+    process.env.FRONTEND_URL || 'https://haccp-food.johnwirtshaus.de',
     'http://localhost:5173',
     'http://localhost:5174',
-    ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
   ];
   app.enableCors({
     origin: (origin, callback) => {
