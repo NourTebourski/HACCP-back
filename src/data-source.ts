@@ -6,7 +6,7 @@ dotenv.config();
 export const AppDataSource = new DataSource(
   process.env.DATABASE_URL
     ? {
-        type: 'postgres',
+        type: 'mariadb',
         url: process.env.DATABASE_URL,
         ssl: { rejectUnauthorized: false },
         entities: [__dirname + '/modules/**/*.entity{.ts,.js}'],
@@ -14,7 +14,7 @@ export const AppDataSource = new DataSource(
         synchronize: false,
       }
     : {
-        type: 'postgres',
+        type: 'mariadb',
         host: process.env.DB_HOST || 'localhost',
         port: parseInt(process.env.DB_PORT || '5432', 10),
         username: process.env.DB_USERNAME || 'postgres',

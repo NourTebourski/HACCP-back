@@ -30,7 +30,7 @@ import { SeedModule } from './modules/seed/seed.module';
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => {
         const base = {
-          type: 'postgres' as const,
+          type: 'mariadb' as const,
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
           synchronize: process.env.DB_SYNC === 'true' || config.get<string>('app.nodeEnv') !== 'production',
           logging: config.get<string>('app.nodeEnv') === 'development',
